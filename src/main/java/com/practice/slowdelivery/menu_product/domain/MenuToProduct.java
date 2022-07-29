@@ -1,8 +1,8 @@
 package com.practice.slowdelivery.menu_product.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.practice.slowdelivery.menu.domain.Menu;
-import com.practice.slowdelivery.product.domain.Product;
+import com.practice.slowdelivery.domain.Menu;
+import com.practice.slowdelivery.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

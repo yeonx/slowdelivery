@@ -1,17 +1,16 @@
-package com.practice.slowdelivery.menu.domain;
+package com.practice.slowdelivery.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.practice.slowdelivery.common.entity.BaseTimeEntity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
 @Entity
+@Table(name="menu")
+@Getter @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Menu")
-public class Menu extends BaseTimeEntity {
+public class Menu{
 
     @Id @GeneratedValue
     @Column(name = "menu_id")
