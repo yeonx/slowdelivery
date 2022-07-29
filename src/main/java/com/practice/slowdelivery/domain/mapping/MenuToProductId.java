@@ -1,4 +1,4 @@
-package com.practice.slowdelivery.menu_product.domain;
+package com.practice.slowdelivery.domain.mapping;
 
 import java.io.Serializable;
 

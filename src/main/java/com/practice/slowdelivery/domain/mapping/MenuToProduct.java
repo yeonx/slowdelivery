@@ -1,8 +1,9 @@
-package com.practice.slowdelivery.menu_product.domain;
+package com.practice.slowdelivery.domain.mapping;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.practice.slowdelivery.domain.Menu;
 import com.practice.slowdelivery.domain.Product;
+import com.practice.slowdelivery.menu_product.domain.MenuToProductId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(MenuToProductId.class)
