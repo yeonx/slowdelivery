@@ -1,8 +1,8 @@
-package com.practice.slowdelivery.domain.mapping;
+package com.practice.slowdelivery.product.domain.mapping;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.practice.slowdelivery.domain.Menu;
-import com.practice.slowdelivery.domain.Product;
+import com.practice.slowdelivery.menu.domain.Menu;
+import com.practice.slowdelivery.product.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +30,11 @@ public class MenuToProduct implements Serializable {
     @JsonBackReference
     @JoinColumn(name="product_id")
     private Product product;
+
+    @Column(name="is_display")
+    private Boolean isDisplay;
+
+    @Column(name="display_order")
+    private Integer displayOrder;
 
 }

@@ -1,4 +1,4 @@
-package com.practice.slowdelivery.domain;
+package com.practice.slowdelivery.category.domain;
 
 import lombok.*;
 
@@ -6,13 +6,15 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="catetory")
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category{
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name="category_id")
     private Long id;
 

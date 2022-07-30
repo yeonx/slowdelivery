@@ -1,4 +1,4 @@
-package com.practice.slowdelivery.domain;
+package com.practice.slowdelivery.product.domain;
 
 import lombok.*;
 
@@ -6,7 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="product")
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

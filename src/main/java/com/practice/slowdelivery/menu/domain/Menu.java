@@ -1,4 +1,4 @@
-package com.practice.slowdelivery.domain;
+package com.practice.slowdelivery.menu.domain;
 
 import lombok.*;
 
@@ -6,13 +6,15 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="menu")
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Menu{
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "menu_id")
     private Long id;
 
@@ -21,7 +23,6 @@ public class Menu{
 
     @Column
     private String introduction;
-
 
 //    @ManyToOne
 //    @JoinColumn(name = "shop_id")
