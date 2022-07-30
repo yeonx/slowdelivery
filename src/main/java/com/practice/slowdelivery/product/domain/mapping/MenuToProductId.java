@@ -8,9 +8,9 @@ public class MenuToProductId implements Serializable {
     private Long product;
 
     public MenuToProductId(){}
-    public MenuToProductId(Long menuId,Long productId){
+    public MenuToProductId(Long menuPK,Long productPK){
         super();
-        this.menu=menuId;
-        this.product=productId;
+        this.menu=menuPK;
+        this.product=productPK;
     }
 }
