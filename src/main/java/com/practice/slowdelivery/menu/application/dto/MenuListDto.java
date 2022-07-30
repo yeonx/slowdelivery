@@ -16,7 +16,7 @@ public class MenuListDto {
         menuDtoList = new ArrayList<>(menuList.size());
 
         for(Menu m : menuList){
-            menuDtoList.add(new MenuDto(m.getMenuPK(),m.getMenuName(),m.getIntroduction()));
+            menuDtoList.add(new MenuDto(m.getMenuPK(),m.getMenuName(),m.getIntroduction(),m.getIsDisplay(),m.getDisplayOrder()));
         }
 
     }

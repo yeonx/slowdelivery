@@ -14,7 +14,13 @@ public class MenuUpdateRequestDto {
 
     private String introduction;
 
+    @NotBlank
+    private Boolean isDisplay;
+
+    @NotBlank
+    private Integer displayOrder;
+
     public Menu toEntity(Shop shop){
-        return new Menu(shop,menuName,introduction);
+        return new Menu(shop,menuName,introduction,isDisplay,displayOrder);
     }
 }

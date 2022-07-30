@@ -3,6 +3,7 @@ package com.practice.slowdelivery.menu.application.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
 @Data
 @AllArgsConstructor
 public class MenuDto {
@@ -12,4 +13,8 @@ public class MenuDto {
     private String menuName;
 
     private String introduction;
+
+    private Boolean isDisplay;
+
+    private Integer displayOrder;
 }

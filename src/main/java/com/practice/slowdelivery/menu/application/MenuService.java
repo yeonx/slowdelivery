@@ -38,7 +38,7 @@ public class MenuService {
     @Transactional
     public void updateMenu(Long menuPK, MenuUpdateRequestDto menuUpdateRequestDto) throws IOException {
         Menu menu = menuRepository.findByMenuPK(menuPK);
-        menu.updateMenu(menuUpdateRequestDto.getMenuName(),menuUpdateRequestDto.getIntroduction());
+        menu.updateMenu(menuUpdateRequestDto.getMenuName(),menuUpdateRequestDto.getIntroduction(),menuUpdateRequestDto.getIsDisplay(),menuUpdateRequestDto.getDisplayOrder());
     }
 
     @Transactional

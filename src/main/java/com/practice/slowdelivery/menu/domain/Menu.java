@@ -25,19 +25,29 @@ public class Menu{
     @Column(nullable = true, name="introduction")
     private String introduction;
 
+    @Column(name="is_display")
+    private Boolean isDisplay;
+
+    @Column(name="display_order")
+    private Integer displayOrder;
+
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    public Menu(Shop shop,String menuName, String introduction){
+    public Menu(Shop shop,String menuName, String introduction,Boolean isDisplay,Integer displayOrder){
         this.shop=shop;
         this.menuName=menuName;
         this.introduction=introduction;
+        this.isDisplay=isDisplay;
+        this.displayOrder=displayOrder;
     }
 
-    public void updateMenu(String menuName,String introduction){
+    public void updateMenu(String menuName,String introduction,Boolean isDisplay,Integer displayOrder){
         this.menuName=menuName;
         this.introduction=introduction;
+        this.isDisplay=isDisplay;
+        this.displayOrder=displayOrder;
     }
 
 }
