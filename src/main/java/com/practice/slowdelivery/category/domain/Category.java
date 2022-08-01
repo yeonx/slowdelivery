@@ -6,8 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="catetory")
-@Getter
-@Setter
+@Getter @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
