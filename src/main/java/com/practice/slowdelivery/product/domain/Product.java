@@ -7,14 +7,11 @@ import javax.persistence.*;
 @Entity
 @Table(name="product")
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
 
@@ -33,6 +30,7 @@ public class Product {
     @Column(name="max_order_quantity")
     private Integer maxOrderQuantity;
 
+    @Builder
     public Product(String productName,Integer price, String introduction,Boolean isSale,Integer maxOrderQuantity){
         this.productName= productName;
         this.price=price;

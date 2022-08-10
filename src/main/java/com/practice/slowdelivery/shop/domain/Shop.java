@@ -52,6 +52,12 @@ public class Shop {
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryShop> categories = new ArrayList<>();
 
+    @JsonManagedReference
+    @JsonBackReference
+    @OneToMany(mappedBy = "shop")
+    private List<Menu> menuList;
+
+
     @Builder
     public Shop(Long id,String name, Money minOrderAmount, PhoneNumber phoneNumber,String introduction, BusinessTimeInfo businessTimeInfo,ShopLocation location,Long shopThumbnailFiledId, @Singular Set<Category> categories) {
         this.id = id;

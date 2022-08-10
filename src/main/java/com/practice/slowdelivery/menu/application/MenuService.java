@@ -23,8 +23,8 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     @Transactional(readOnly = true)
-    public MenuListResponseDto createMenuList(Long shopPK){
-        Shop shop = shopRepository.findByShopPK(shopPK);
+    public MenuListResponseDto createMenuList(Long shopId){
+        Shop shop = shopRepository.findByShopId(shopId);
         return new MenuListResponseDto(shop);
     }
 
