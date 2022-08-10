@@ -3,13 +3,12 @@ package com.practice.slowdelivery.shop.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.practice.slowdelivery.category.domain.Category;
+import com.practice.slowdelivery.common.domain.BaseTimeEntity;
 import com.practice.slowdelivery.common.domain.Money;
 import com.practice.slowdelivery.common.domain.PhoneNumber;
-import com.practice.slowdelivery.exception.ErrorCode;
 import com.practice.slowdelivery.exception.InvalidValueException;
 import com.practice.slowdelivery.menu.domain.Menu;
 import lombok.*;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,10 +18,15 @@ import java.util.Set;
 import static com.practice.slowdelivery.exception.ErrorCode.CATEGORY_COUNT;
 
 @Getter
+@EqualsAndHashCode(of = "id", callSuper = false)
+@SecondaryTable(
+        name="shop_location",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "shop_id",referencedColumnName = "shop_id")
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name="shop")
-public class Shop {
+public class Shop extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="shop_id")
@@ -59,15 +63,16 @@ public class Shop {
 
 
     @Builder
-    public Shop(Long id,String name, Money minOrderAmount, PhoneNumber phoneNumber,String introduction, BusinessTimeInfo businessTimeInfo,ShopLocation location,Long shopThumbnailFiledId, @Singular Set<Category> categories) {
+    public Shop(Long id,String name, Money minOrderAmount, PhoneNumber phoneNumber,String introduction,  String openingHours,String dayOff,ShopLocation location,Long shopThumbnailFiledId, Category category) {
         this.id = id;
         this.name = name;
         this.minOrderAmount = minOrderAmount;
         this.phoneNumber = phoneNumber;
         this.introduction=introduction;
+        this.businessTimeInfo = new BusinessTimeInfo(openingHours,dayOff);
         this.location=location;
         this.shopThumbnailFiledId = shopThumbnailFiledId;
-        categories.forEach(category -> this.categories.add(new CategoryShop(this,category.getId())));
+        this.categories.add(new CategoryShop(this,category.getId()));
         if(this.categories.size()==0)
             throw new InvalidValueException(CATEGORY_COUNT);
     }

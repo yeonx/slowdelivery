@@ -1,5 +1,6 @@
 package com.practice.slowdelivery.menu.domain;
 
+import com.practice.slowdelivery.common.domain.DisplayInfo;
 import com.practice.slowdelivery.shop.domain.Shop;
 import lombok.*;
 
@@ -17,7 +18,7 @@ public class Menu{
     @Id
     @GeneratedValue
     @Column(name = "menu_id")
-    private Long menuPK;
+    private Long id;
 
     @Column(nullable = false, name="menu_name")
     private String menuName;
@@ -25,29 +26,24 @@ public class Menu{
     @Column(nullable = true, name="introduction")
     private String introduction;
 
-    @Column(name="is_display")
-    private Boolean isDisplay;
-
-    @Column(name="display_order")
-    private Integer displayOrder;
+    @Embedded
+    private DisplayInfo displayInfo;
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    public Menu(Shop shop,String menuName, String introduction,Boolean isDisplay,Integer displayOrder){
+    public Menu(Shop shop,String menuName, String introduction,DisplayInfo displayInfo){
         this.shop=shop;
         this.menuName=menuName;
         this.introduction=introduction;
-        this.isDisplay=isDisplay;
-        this.displayOrder=displayOrder;
+        this.displayInfo = displayInfo;
     }
 
-    public void updateMenu(String menuName,String introduction,Boolean isDisplay,Integer displayOrder){
+    public void updateMenu(String menuName,String introduction,DisplayInfo displayInfo){
         this.menuName=menuName;
         this.introduction=introduction;
-        this.isDisplay=isDisplay;
-        this.displayOrder=displayOrder;
+        this.displayInfo = displayInfo;
     }
 
 }

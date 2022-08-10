@@ -1,5 +1,6 @@
 package com.practice.slowdelivery.menu.application.dto.request;
 
+import com.practice.slowdelivery.common.domain.DisplayInfo;
 import com.practice.slowdelivery.menu.domain.Menu;
 import com.practice.slowdelivery.shop.domain.Shop;
 import lombok.Data;
@@ -15,13 +16,10 @@ public class MenuCreateRequestDto {
     private String introduction;
 
     @NotBlank
-    private Boolean isDisplay;
-
-    @NotBlank
-    private Integer displayOrder;
+    private DisplayInfo displayInfo;
 
 
     public Menu toEntity(Shop shop){
-        return new Menu(shop,menuName,introduction,isDisplay,displayOrder);
+        return new Menu(shop,menuName,introduction,displayInfo);
     }
 }
