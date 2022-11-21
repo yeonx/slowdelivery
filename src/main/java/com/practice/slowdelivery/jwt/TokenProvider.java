@@ -1,12 +1,12 @@
 package be.shop.slow_delivery.jwt;
 
+import be.shop.slow_delivery.config.auth.AuthConstraints;
+import be.shop.slow_delivery.config.auth.JwtUserDetails;
 import be.shop.slow_delivery.seller.domain.Seller;
-import be.shop.slow_delivery.seller.domain.SellerRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,63 +22,58 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class TokenProvider implements InitializingBean {
-
-    private static final String AUTHORITIES_KEY = "auth";
-
-    private final String secret;
+public class TokenProvider{
     private final long tokenValidityInMilliseconds;
-
-    private final SellerRepository sellerRepository;
-    private Key key;
+    private final Key key;
 
     public TokenProvider(
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.token-validity-in-seconds}") long tokenValidityInMilliseconds, SellerRepository sellerRepository){
-
-        this.secret=secret;
-        this.tokenValidityInMilliseconds=tokenValidityInMilliseconds*1000;
-        this.sellerRepository=sellerRepository;
+            @Value("${jwt.token-validity-in-seconds}") long tokenValidityInMilliseconds){
+        this.tokenValidityInMilliseconds = tokenValidityInMilliseconds * 1000;
+        this.key= Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception{
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        this.key= Keys.hmacShaKeyFor(keyBytes);
+    public Claims verify(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public String generateToken(Seller seller){
+        return Jwts.builder()
+                .setSubject(seller.getUsername())
+                .claim(AuthConstraints.HEADER_STRING.getValue(), seller.getRole())
+                .claim("seller_id", seller.getId())
+                .signWith(key, SignatureAlgorithm.ES512)
+                .setExpiration(new Date((new Date()).getTime() + this.tokenValidityInMilliseconds))
+                .compact();
     }
 
     public String createToken(Long sellerId, Authentication authentication){
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
-        long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        Date expirationDate = new Date((new Date()).getTime() + this.tokenValidityInMilliseconds);
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY,authorities)
-                .claim("seller_id",sellerId)
+                .claim(AuthConstraints.HEADER_STRING.getValue(), authorities)
+                .claim("seller_id", sellerId)
                 .signWith(key, SignatureAlgorithm.ES512)
-                .setExpiration(validity)
+                .setExpiration(expirationDate)
                 .compact();
     }
 
     public Authentication getAuthentication(String token){
-        Claims claims = Jwts
-                .parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
+        Claims claims = verify(token);
         Collection<? extends  GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                Arrays.stream(claims.get(AuthConstraints.HEADER_STRING.getValue()).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
-
-        Seller seller = sellerRepository.findById(Long.valueOf(claims.get("seller_id").toString()));
-        return new UsernamePasswordAuthenticationToken(seller,token,authorities);
+        JwtUserDetails userDetails = new JwtUserDetails(claims);
+        return new UsernamePasswordAuthenticationToken(userDetails, token, authorities);
     }
 
     public boolean validateToken(String token){
