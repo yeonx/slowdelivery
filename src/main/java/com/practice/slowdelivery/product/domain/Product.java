@@ -14,8 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Product extends BaseTimeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -35,11 +34,11 @@ public class Product extends BaseTimeEntity {
     private String description;
 
     @Embedded
-    @Column(name = "price", nullable = false)
+    @AttributeOverride(name = "amount", column = @Column(name = "price", nullable = false))
     private Money price;
 
     @Embedded
-    @Column(name = "max_order_quantity", nullable = false)
+    @AttributeOverride(name = "quantity", column = @Column(name = "max_order_quantity", nullable = false))
     private Quantity maxOrderQuantity;
 
     @Builder
