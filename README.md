@@ -2,11 +2,11 @@
 
 - ios 앱
 
-- `2022.07` ~ `진행중` (11월30일 종료)
+- `2022.07` ~ `2022.11`  
 
 - 역할 : `core shop` 
 
-- 기술 스택  : `java` `Springboot` `JPA` `QueryDSL` `h2` `MySQL` `Redis` `Gradle` `JWT`
+- 기술 스택  : `java 11` `Springboot` `JPA` `QueryDSL` `h2` `MySQL` `Redis` `Gradle` `JWT`
 
 
 <details>
